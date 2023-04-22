@@ -17,7 +17,7 @@ _G.heven = false --change to true to tp
 _G.annoy = false --change to true to annoy jameson
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({
-    Name = 'Pet Rift Potions v10.1 (Overhaul)',
+    Name = 'Pet Rift Potions v10.2',
     HidePremium = true,
     IntroText = 'Pet Rift Potions',
     IntroIcon = 'rbxassetid://10414911576'
@@ -179,18 +179,30 @@ tab.misc:AddButton({
         game:GetService('ReplicatedStorage').Remotes.PetActionRequest:InvokeServer(unpack(args))
     end
 })
+game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = 100
+local VirtualUser = game:GetService('VirtualUser')
+game:GetService('Players').LocalPlayer.Idled:connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
 tab.misc:AddSlider({
     Name = 'Walk Speed',
     Min = 9,
     Max = 500,
-    Default = 100,
+    Default = game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed,
     Color = Color3.fromRGB(255, 255, 255),
     Increment = 1,
     ValueName = '',
+    Flag = 'WalkSpeedSlider',
     Callback = function(Value)
         game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = Value
     end
 })
+local ws_co = coroutine.create(function()
+    while (true) do
+        game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = OrionLib.Flags['WalkSpeedSlider'].Value
+    end
+end)
 tab.annoy:AddToggle({
     Name = 'auto trade spam',
     Default = false,
