@@ -59,6 +59,12 @@ tab.misc = Window:MakeTab({
 	PremiumOnly = false
 })
 
+tab.Autofarm = Window:MakeTab({
+	Name = "autofarm",
+	Icon = "rbxassetid://7059346373",
+	PremiumOnly = false
+})
+
 tab.Tools = Window:MakeTab({
 	Name = "Tools",
 	Icon = "rbxassetid://7059446373",
