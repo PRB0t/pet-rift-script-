@@ -470,6 +470,41 @@ local args = {
 game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
 	end
 })
+tab.Teloport:AddButton({
+    Name = "deep",
+    Callback = function()
+local args = {
+    [1] = "Teleport",
+    [2] = "Deep Ocean"
+}
+
+game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+	end
+})
+
+tab.Teloport:AddButton({
+    Name = "witch",
+    Callback = function()
+local args = {
+    [1] = "Teleport",
+    [2] = "Witch"
+}
+
+game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+	end
+})
+tab.Teloport:AddButton({
+    Name = "valcano",
+    Callback = function()
+local args = {
+    [1] = "Teleport",
+    [2] = "Volcano Matter"
+}
+
+game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+	end
+})
+
 
 tab.credits:AddLabel("GUI Made By: SippingSizzurp")
 tab.credits:AddLabel("Scripts Made By: Poke01 and piuro")
