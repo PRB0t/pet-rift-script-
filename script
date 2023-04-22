@@ -1,11 +1,5 @@
 --made by poke0 and friends
 
-
---loadstring for you guys if you want it
-loadstring(game:HttpGet("https://raw.githubusercontent.com/poke000000000/pet-rift-script-/main/script",true))();
-
-
-
 --AUTO BUY STUFF
 _G.autoGold=false--change to true for buying GoldPotion
 _G.autoLuck=false--change to true for buying luckPotion
