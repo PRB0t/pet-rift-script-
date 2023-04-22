@@ -358,7 +358,82 @@ game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
  end
 })
 
+tab.AutoFarm:AddSection({
+    Name = "Auto Attack Piles"
+})
 
+local Loop_AutoFarm = false
+
+local function GetPlayerWorlds()
+    local arr = { 'Spawn' }
+
+    for i, v in pairs(game:GetService("Players").LocalPlayer.World:GetChildren()) do
+        table.insert(arr, v.Name)
+    end
+
+    return arr
+end
+
+local function AutoFarmStart()
+    if Loop_AutoFarm == true then
+        local zone = OrionLib.Flags["AutoFarm_AreaDD"].Value
+
+        zone = string.gsub(string.gsub(string.gsub(string.upper(zone), " ", "_"), "ARCH", "ARCH_ZONE_1"), "HEAVEN",
+            "HEAVEN1")
+
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace")
+            .ObjectsFolder[zone].CFrame
+
+        for i, v in pairs(game:GetService("Workspace").PlayerPets:FindFirstChild(game:GetService("Players").LocalPlayer.Name):GetChildren()) do
+            for _, c in pairs(v:GetChildren()) do
+                if pcall(function() local check = c.CFrame end) then
+                    c.CFrame = game.Players.LocalPlayer.Character.Head.CFrame
+                end
+            end
+        end
+
+        wait(0.5)
+
+        while (Loop_AutoFarm == true) do
+            local pile = workspace.ObjectsFolder[zone]:GetChildren()[1]
+
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("AllPetsAttack", pile)
+
+            repeat wait(.001) until workspace.ObjectsFolder[zone]:GetChildren()[1] ~= pile
+        end
+    end
+end
+
+local VirtualUser = game:GetService('VirtualUser')
+game:GetService('Players').LocalPlayer.Idled:connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
+
+tab.AutoFarm:AddDropdown({
+    Name = "Area",
+    Default = "Spawn",
+    Options = GetPlayerWorlds(),
+    Flag = "AutoFarm_AreaDD",
+    Callback = function()
+        Loop_AutoFarm = false
+        Loop_AutoFarm = true
+        AutoFarmStart()
+    end
+})
+
+tab.AutoFarm:AddToggle({
+    Name = "Farm Piles",
+    Default = false,
+    Flag = "AutoFarm_AreaTGL",
+    Callback = function(Value)
+        Loop_AutoFarm = Value
+
+        OrionLib.Flags["AutoFarm_AreaDD"]:Refresh(GetPlayerWorlds(), true)
+
+        AutoFarmStart()
+    end
+})
 
 tab.credits:AddLabel("GUI Made By: SippingSizzurp")
 tab.credits:AddLabel("Scripts Made By: Poke01")
