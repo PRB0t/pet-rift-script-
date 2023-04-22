@@ -220,9 +220,9 @@ tab.drink:AddToggle({
 
 tab.misc:AddSlider({
     Name = "Walk Speed",
-    Min = 16,
+    Min = 9,
     Max = 500,
-    Default = 16,
+    Default = 100,
     Color = Color3.fromRGB(255, 255, 255),
     Increment = 1,
     ValueName = "",
