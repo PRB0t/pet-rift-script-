@@ -1,20 +1,27 @@
+
 --AUTO BUY STUFF
 _G.autoGold = false      --change to true for buying GoldPotion
 _G.autoLuck = false      --change to true for buying luckPotion
 _G.autoDama = false      --change to true for buying damage potion
 _G.autoXppo = false      --change to true for buying xp potions
+
 --autodrink stuff
 _G.autodrinkluck = false --change to true for it to auto autodrink luck
 _G.autodrinkgold = false --change to true to auto drink gold potion
 _G.autodrinkdama = false --change to true to autodrink dama potions
 _G.autodrinkxppo = false --change to truwe to autodrink xp potion
+
 --trade spam
 _G.autotrade = false     --change to true to spam
+
 --tp stuff
+
 _G.tp = false            --change to true to tp
 _G.heven = false         --change to true to tp
+
 --annoying shit
 _G.annoy = false         --change to true to annoy jameson
+
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({
     Name = '🐕 Pet Rift GUI v12.0 (Potion UI Overhaul)',
