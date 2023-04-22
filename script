@@ -344,6 +344,7 @@ local args = {
 
 game:GetService("ReplicatedStorage").Remotes.PetActionRequest:InvokeServer(unpack(args))
  end
+
 })
 tab.Teloport:AddButton({
     Name = "Spawn",
