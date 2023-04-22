@@ -1,4 +1,4 @@
---AUTO BUY STUFF
+ --AUTO BUY STUFF
 _G.autoGold = false --change to true for buying GoldPotion
 _G.autoLuck = false --change to true for buying luckPotion
 _G.autoDama = false --change to true for buying damage potion
@@ -32,7 +32,7 @@ _G.annoy = false --change to true to annoy jameson
 
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({ Name = "Pet Rift Potions", HidePremium = true, IntroText = "Pet Rift Potions",
+local Window = OrionLib:MakeWindow({ Name = "Pet Rift PotionsV10", HidePremium = true, IntroText = "Pet Rift Potions",
     IntroIcon = "rbxassetid://10414911576" })
 local tab = {}
 tab.buy = Window:MakeTab({
@@ -424,6 +424,51 @@ tab.AutoFarm:AddToggle({
 
         AutoFarmStart()
     end
+})
+tab.Teloport:AddButton({
+    Name = "Spring",
+    Callback = function()
+local args = {
+    [1] = "Teleport",
+    [2] = "Spring"
+}
+
+game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+    end
+})
+
+tab.Teloport:AddButton({
+    Name = "fantasy",
+    Callback = function()
+local args = {
+    [1] = "Teleport",
+    [2] = "Fantasy Nature"
+}
+
+game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+	end 
+})
+tab.Teloport:AddButton({
+    Name = "troll",
+    Callback = function()
+local args = {
+    [1] = "Teleport",
+    [2] = "Troll"
+}
+
+game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+	end
+})
+tab.Teloport:AddButton({
+    Name = "Skeletons",
+    Callback = function()
+local args = {
+    [1] = "Teleport",
+    [2] = "Skeletons"
+}
+
+game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+	end
 })
 
 tab.credits:AddLabel("GUI Made By: SippingSizzurp")
