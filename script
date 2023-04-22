@@ -401,5 +401,6 @@ tab.Teloport:AddButton({
 })
 tab.credits:AddLabel('GUI & Scripts Made By:')
 tab.credits:AddLabel('SippingSizzurp and Poke01 and Piuro ')
+tab.credits:AddLabel('Aswell as creds to jameson for telling me to make this:')
 
 OrionLib:Init()
