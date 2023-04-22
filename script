@@ -1,46 +1,31 @@
 --AUTO BUY STUFF
-_G.autoGold = false --change to true for buying GoldPotion
-_G.autoLuck = false --change to true for buying luckPotion
-_G.autoDama = false --change to true for buying damage potion
-_G.autoXppo = false --change to true for buying xp potions
+_G.autoGold = false      --change to true for buying GoldPotion
+_G.autoLuck = false      --change to true for buying luckPotion
+_G.autoDama = false      --change to true for buying damage potion
+_G.autoXppo = false      --change to true for buying xp potions
 --autodrink stuff
 _G.autodrinkluck = false --change to true for it to auto autodrink luck
 _G.autodrinkgold = false --change to true to auto drink gold potion
 _G.autodrinkdama = false --change to true to autodrink dama potions
 _G.autodrinkxppo = false --change to truwe to autodrink xp potion
 --trade spam
-_G.autotrade = false --change to true to spam
+_G.autotrade = false     --change to true to spam
 --tp stuff
-_G.tp = false    --change to true to tp
-_G.heven = false --change to true to tp
+_G.tp = false            --change to true to tp
+_G.heven = false         --change to true to tp
 --annoying shit
-_G.annoy = false --change to true to annoy jameson
+_G.annoy = false         --change to true to annoy jameson
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({
-    Name = 'Pet Rift Potions v11.0',
+    Name = '🐕 Pet Rift GUI v12.0 (Potion UI Overhaul)',
     HidePremium = true,
-    IntroText = 'Pet Rift Potions',
+    IntroText = 'Pet Rift GUI',
     IntroIcon = 'rbxassetid://10414911576'
 })
 local tab = {}
-tab.buy = Window:MakeTab({
-    Name = 'Purchase',
-    Icon = 'rbxassetid://10414911576',
-    PremiumOnly = false
-})
-tab.drink = Window:MakeTab({
-    Name = 'Drink',
-    Icon = 'rbxassetid://10414911576',
-    PremiumOnly = false
-})
-tab.misc = Window:MakeTab({
-    Name = 'Misc',
-    Icon = 'rbxassetid://7059346373',
-    PremiumOnly = false
-})
-tab.annoy = Window:MakeTab({
-    Name = 'Annoy Friends',
-    Icon = 'rbxassetid://7059346373',
+tab.potions = Window:MakeTab({
+    Name = 'Potions',
+    Icon = 'rbxassetid://6493470706',
     PremiumOnly = false
 })
 tab.AutoFarm = Window:MakeTab({
@@ -50,7 +35,17 @@ tab.AutoFarm = Window:MakeTab({
 })
 tab.Teloport = Window:MakeTab({
     Name = 'Teleport',
-    Icon = 'rbxassetid://6493470706',
+    Icon = 'rbxassetid://7734052925',
+    PremiumOnly = false
+})
+tab.annoy = Window:MakeTab({
+    Name = 'Annoy Friends',
+    Icon = 'rbxassetid://7743871002',
+    PremiumOnly = false
+})
+tab.misc = Window:MakeTab({
+    Name = 'Misc',
+    Icon = 'rbxassetid://7059346373',
     PremiumOnly = false
 })
 tab.credits = Window:MakeTab({
@@ -67,7 +62,10 @@ tab.misc:AddButton({
         OrionLib:Destroy()
     end
 })
-tab.buy:AddToggle({
+tab.potions:AddSection({
+    Name = 'Auto-Buy 🤑'
+})
+tab.potions:AddToggle({
     Name = 'Auto Gold',
     Default = false,
     Callback = function(Value)
@@ -81,7 +79,7 @@ tab.buy:AddToggle({
         end
     end
 })
-tab.buy:AddToggle({
+tab.potions:AddToggle({
     Name = 'Auto Luck',
     Default = false,
     Callback = function(Value)
@@ -95,7 +93,7 @@ tab.buy:AddToggle({
         end
     end
 })
-tab.buy:AddToggle({
+tab.potions:AddToggle({
     Name = 'Auto XP',
     Default = false,
     Callback = function(Value)
@@ -109,7 +107,7 @@ tab.buy:AddToggle({
         end
     end
 })
-tab.buy:AddToggle({
+tab.potions:AddToggle({
     Name = 'Auto Damage',
     Default = false,
     Callback = function(Value)
@@ -123,7 +121,10 @@ tab.buy:AddToggle({
         end
     end
 })
-tab.drink:AddToggle({
+tab.potions:AddSection({
+    Name = 'Auto-Drink 🥶'
+})
+tab.potions:AddToggle({
     Name = 'Auto Gold',
     Default = false,
     Callback = function(Value)
@@ -137,7 +138,7 @@ tab.drink:AddToggle({
         end
     end
 })
-tab.drink:AddToggle({
+tab.potions:AddToggle({
     Name = 'Auto Luck',
     Default = false,
     Callback = function(Value)
@@ -151,7 +152,7 @@ tab.drink:AddToggle({
         end
     end
 })
-tab.drink:AddToggle({
+tab.potions:AddToggle({
     Name = 'Auto XP',
     Default = false,
     Callback = function(Value)
@@ -165,7 +166,7 @@ tab.drink:AddToggle({
         end
     end
 })
-tab.drink:AddToggle({
+tab.potions:AddToggle({
     Name = 'Auto Damage',
     Default = false,
     Callback = function(Value)
@@ -219,7 +220,7 @@ local ws_co = coroutine.create(function()
     end
 end)
 tab.annoy:AddToggle({
-    Name = 'auto trade spam',
+    Name = 'Auto Spam Trade (Specific User)',
     Default = false,
     Callback = function(Value)
         _G.autotrade = Value
@@ -232,36 +233,8 @@ tab.annoy:AddToggle({
         end
     end
 })
-tab.Teloport:AddToggle({
-    Name = 'Teloport',
-    Default = false,
-    Callback = function(Value)
-        _G.tp = Value
-        while _G.tp and wait() do
-            local args = {
-                [1] = 'Teleport',
-                [2] = 'Vampire Castle'
-            }
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
-        end
-    end
-})
-tab.Teloport:AddToggle({
-    Name = 'Heven',
-    Default = false,
-    Callback = function(Value)
-        _G.heven = Value
-        while _G.heven and wait() do
-            local args = {
-                [1] = 'Teleport',
-                [2] = 'Heaven'
-            }
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
-        end
-    end
-})
 tab.annoy:AddToggle({
-    Name = 'annoy',
+    Name = 'Spam Msgs',
     Default = false,
     Callback = function(Value)
         _G.annoy = Value
@@ -418,7 +391,6 @@ tab.Teloport:AddButton({
         game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
     end
 })
-tab.credits:AddLabel('GUI Made By: SippingSizzurp')
-tab.credits:AddLabel('Scripts Made By: Poke01 and piuro')
-tab.credits:AddLabel('teleport buttons added by Piuro and poke01 ')
+tab.credits:AddLabel('GUI & Scripts Made By:')
+tab.credits:AddLabel('SippingSizzurp and Poke01')
 OrionLib:Init()
