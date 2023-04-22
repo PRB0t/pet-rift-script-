@@ -4,13 +4,6 @@ _G.autoLuck=false--change to true for buying luckPotion
 _G.autoDama=false--change to true for buying damage potion
 _G.autoXppo=false--change to true for buying xp potions
 
-
---load string for you nerds out there lmfao
-loadstring(game:HttpGet("https://pastebin.com/raw/z2mVnsA0",true))();
-
-
-
-
 --autodrink stuff
 _G.autodrinkluck=false --change to true for it to auto autodrink luck
 _G.autodrinkgold=false--change to true to auto drink gold potion
@@ -39,7 +32,7 @@ _G.annoy=false --change to true to annoy jameson
 
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({Name = "Pet Rift Potions V9.5", HidePremium = true, IntroText = "Pet Rift Potions", IntroIcon = "rbxassetid://10414911576"})
+local Window = OrionLib:MakeWindow({Name = "Pet Rift Potions", HidePremium = true, IntroText = "Pet Rift Potions", IntroIcon = "rbxassetid://10414911576"})
 local tab = {}
 tab.buy = Window:MakeTab({
 	Name = "Purchase",
@@ -55,12 +48,6 @@ tab.drink = Window:MakeTab({
 
 tab.misc = Window:MakeTab({
 	Name = "Misc",
-	Icon = "rbxassetid://7059346373",
-	PremiumOnly = false
-})
-
-tab.Autofarm = Window:MakeTab({
-	Name = "autofarm",
 	Icon = "rbxassetid://7059346373",
 	PremiumOnly = false
 })
@@ -249,7 +236,7 @@ tab.Trade:AddToggle({
      }
      
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Trade"):FireServer(unpack(args))
-	end
+end
 end    
 })
 
@@ -266,7 +253,7 @@ tab.Chest:AddToggle({
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Client"):FireServer(unpack(args))
-	end
+end
 end
 })
 
@@ -282,7 +269,7 @@ local args = {
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Client"):FireServer(unpack(args))
-	end
+end
 end
 })
 
@@ -297,7 +284,7 @@ local args = {
     [2] = "Vampire Castle"
 }
 game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
-	end
+end
 end
 })
 
@@ -312,7 +299,7 @@ local args = {
     [2] = "Heaven"
 }
 game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
-	end
+end
 end
 })
 
@@ -327,7 +314,7 @@ local args = {
     [2] = "All"
 }
 game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
-	end
+end
 end
 })
 
