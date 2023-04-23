@@ -399,6 +399,17 @@ tab.Teloport:AddButton({
         game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
     end
 })
+tab.Teloport:AddButton({
+    Name = 'Arch',
+    Callback = function()
+local args = {
+    [1] = "Teleport",
+    [2] = "Arch"
+}
+
+game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+    end
+ })
 tab.credits:AddLabel('GUI & Scripts Made By:')
 tab.credits:AddLabel('SippingSizzurp and Poke01 and Piuro ')
 tab.credits:AddLabel('Aswell as creds to jameson for telling me to make this:')
