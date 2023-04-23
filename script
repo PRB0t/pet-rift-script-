@@ -402,12 +402,11 @@ tab.Teloport:AddButton({
 tab.Teloport:AddButton({
     Name = 'Arch',
     Callback = function()
-local args = {
-    [1] = "Teleport",
-    [2] = "Arch"
-}
-
-game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+        local args = {
+            [1] = "Teleport",
+            [2] = "Arch"
+        }  
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
  })
 tab.credits:AddLabel('GUI & Scripts Made By:')
