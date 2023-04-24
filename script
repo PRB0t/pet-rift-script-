@@ -1,31 +1,26 @@
-
 --AUTO BUY STUFF
 _G.autoGold = false      --change to true for buying GoldPotion
 _G.autoLuck = false      --change to true for buying luckPotion
 _G.autoDama = false      --change to true for buying damage potion
 _G.autoXppo = false      --change to true for buying xp potions
-
 --autodrink stuff
 _G.autodrinkluck = false --change to true for it to auto autodrink luck
 _G.autodrinkgold = false --change to true to auto drink gold potion
 _G.autodrinkdama = false --change to true to autodrink dama potions
 _G.autodrinkxppo = false --change to truwe to autodrink xp potion
-
 --trade spam
 _G.autotrade = false     --change to true to spam
-
 --tp stuff
-
 _G.tp = false            --change to true to tp
 _G.heven = false         --change to true to tp
-
 --annoying shit
 _G.annoy = false         --change to true to annoy jameson
 
+getgenv().Loop_AutoFarm = false
 
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({
-    Name = '🐕 Pet Rift GUI v12.0 (Potion UI Overhaul)',
+    Name = '🐕 Pet Rift GUI v13.1',
     HidePremium = true,
     IntroText = 'Pet Rift GUI',
     IntroIcon = 'rbxassetid://10414911576'
@@ -222,11 +217,22 @@ tab.misc:AddSlider({
         game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = Value
     end
 })
-local ws_co = coroutine.create(function()
-    while (true) do
-        game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = OrionLib.Flags['WalkSpeedSlider'].Value
+tab.misc:AddSection({
+    Name = 'Secrets'
+})
+
+tab.misc:AddButton({
+    Name = 'Grab All Hidden Fairies',
+    Callback = function()
+        local savedPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        for i, v in pairs(game:GetService("Workspace").Fairy:GetChildren()) do
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Main.CFrame
+            wait(0.5)
+        end
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = savedPos
     end
-end)
+})
+
 tab.annoy:AddToggle({
     Name = 'Auto Spam Trade (Specific User)',
     Default = false,
@@ -278,23 +284,24 @@ tab.Teloport:AddButton({
 tab.AutoFarm:AddSection({
     Name = 'Auto Attack Piles'
 })
-local Loop_AutoFarm = false
 local function GetPlayerWorlds()
     local arr = { 'Spawn' }
     for i, v in pairs(game:GetService('Players').LocalPlayer.World:GetChildren()) do
+        if table.find(arr, v.Name) then
+            continue
+        end
         table.insert(arr, v.Name)
     end
     return arr
 end
-local function AutoFarmStart()
-    if Loop_AutoFarm == true then
-        local zone = OrionLib.Flags['AutoFarm_AreaDD'].Value
-        zone = string.gsub(string.gsub(string.gsub(string.upper(zone), ' ', '_'), 'ARCH', 'ARCH_ZONE_1'), 'HEAVEN',
-            'HEAVEN1')
-        local newPos = CFrame.new(game:GetService('Workspace').ObjectsFolder[zone].CFrame.x,
-            game:GetService('Workspace').ObjectsFolder[zone].CFrame.y + 3,
-            game:GetService('Workspace').ObjectsFolder[zone].CFrame.z)
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPos
+
+local function TpPlayerToZone()
+    if not game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(getgenv().zone) then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(
+            game:GetService('Workspace').ObjectsFolder[getgenv().zone].CFrame.x,
+            game:GetService('Workspace').ObjectsFolder[getgenv().zone].CFrame.y + 3,
+            game:GetService('Workspace').ObjectsFolder[getgenv().zone].CFrame.z)
+
         for i, v in pairs(game:GetService('Workspace').PlayerPets:FindFirstChild(game:GetService('Players').LocalPlayer.Name):GetChildren()) do
             for _, c in pairs(v:GetChildren()) do
                 if pcall(function() local check = c.CFrame end) then
@@ -302,33 +309,115 @@ local function AutoFarmStart()
                 end
             end
         end
-        wait(0.5)
-        while (Loop_AutoFarm == true) do
-            local pile = workspace.ObjectsFolder[zone]:GetChildren()[1]
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer('AllPetsAttack', pile)
-            repeat wait(.001) until workspace.ObjectsFolder[zone]:GetChildren()[1] ~= pile
-        end
+    elseif game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(getgenv().zone) then
+        firetouchinterest(game.Players.LocalPlayer.Character.Head,
+            game:GetService("Workspace").MAP.Teleporter["FORCE_TP"][getgenv().zone], 0)
+        wait(0.1)
+        firetouchinterest(game.Players.LocalPlayer.Character.Head,
+            game:GetService("Workspace").MAP.Teleporter["FORCE_TP"][getgenv().zone], 1)
+        wait(2)
     end
 end
+
+local function AutoFarmStart()
+    wait(0.15)
+    if game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(getgenv().zone) then
+        local tps = {}
+        tps['Spawn'] = 'SPAWN'
+        tps['Rift 2'] = 'VOLCANO'
+        tps['Rift 3'] = 'HELL'
+        tps['Rift 4'] = 'OCEAN'
+        tps['Rift 5'] = 'GOBLIN'
+        tps['Azard City'] = 'CYBER'
+        tps['Arch'] = 'ARCH_ZONE_3'
+        tps['Vampire Castle'] = 'VAMPIRE'
+        tps['Heaven'] = 'HEAVEN1'
+
+        getgenv().zone = tps[getgenv().zone]
+        TpPlayerToZone()
+        wait(0.2)
+    end
+    spawn(function()
+        while (getgenv().Loop_AutoFarm == true) do
+            local pile = workspace.ObjectsFolder[getgenv().zone]:GetChildren()[1]
+            game:GetService('ReplicatedStorage').Remotes.Client:FireServer('AllPetsAttack', pile)
+            local stopLoop = false
+            pile.Destroying:connect(function()
+                stopLoop = true
+            end)
+            repeat wait() until stopLoop or getgenv().Loop_AutoFarm ~= true
+        end
+    end)
+end
+
 tab.AutoFarm:AddDropdown({
     Name = 'Area',
     Default = 'Spawn',
     Options = GetPlayerWorlds(),
     Flag = 'AutoFarm_AreaDD',
-    Callback = function()
-        AutoFarmStart()
+    Callback = function(Value)
+        if not game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(Value) then
+            getgenv().zone = string.gsub(string.upper(Value), ' ', '_')
+        elseif game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(Value) then
+            getgenv().zone = Value
+        end
+
+        if getgenv().Loop_AutoFarm == true then
+            TpPlayerToZone()
+            getgenv().Loop_AutoFarm = false
+            wait(0.15)
+            getgenv().Loop_AutoFarm = true
+            AutoFarmStart()
+        end
     end
 })
+
+getgenv().zone = OrionLib.Flags['AutoFarm_AreaDD'].Value
+
 tab.AutoFarm:AddToggle({
     Name = 'Farm Piles',
     Default = false,
     Flag = 'AutoFarm_AreaTGL',
     Callback = function(Value)
-        Loop_AutoFarm = Value
+        getgenv().Loop_AutoFarm = Value
         OrionLib.Flags['AutoFarm_AreaDD']:Refresh(GetPlayerWorlds(), true)
-        AutoFarmStart()
+        if not game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(getgenv().zone) then
+            getgenv().zone = string.gsub(string.upper(getgenv().zone), ' ', '_')
+        end
+        if getgenv().Loop_AutoFarm == true then
+            TpPlayerToZone()
+            AutoFarmStart()
+        end
     end
 })
+
+
+tab.AutoFarm:AddSection({
+    Name = 'Webhook'
+})
+
+getgenv().webhookUrl = 'URL'
+
+tab.AutoFarm:AddTextbox({
+    Name = "Webhook URL",
+    Default = getgenv().webhookUrl,
+    TextDisappear = true,
+    Flag = 'WebHook_INPUT',
+    Callback = function(Value)
+        getgenv().webhookUrl = Value
+    end
+})
+
+getgenv().webhookSend = false
+
+tab.AutoFarm:AddToggle({
+    Name = 'Use Webhook',
+    Default = false,
+    Callback = function(Value)
+        getgenv().webhookSend = Value
+    end
+})
+
 tab.Teloport:AddButton({
     Name = 'Spring',
     Callback = function()
@@ -340,7 +429,7 @@ tab.Teloport:AddButton({
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Fantasy',
+    Name = 'fantasy',
     Callback = function()
         local args = {
             [1] = 'Teleport',
@@ -350,7 +439,7 @@ tab.Teloport:AddButton({
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Troll',
+    Name = 'troll',
     Callback = function()
         local args = {
             [1] = 'Teleport',
@@ -370,7 +459,7 @@ tab.Teloport:AddButton({
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Deep',
+    Name = 'deep',
     Callback = function()
         local args = {
             [1] = 'Teleport',
@@ -380,7 +469,7 @@ tab.Teloport:AddButton({
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Witch',
+    Name = 'witch',
     Callback = function()
         local args = {
             [1] = 'Teleport',
@@ -390,7 +479,7 @@ tab.Teloport:AddButton({
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Valcano',
+    Name = 'valcano',
     Callback = function()
         local args = {
             [1] = 'Teleport',
@@ -403,14 +492,108 @@ tab.Teloport:AddButton({
     Name = 'Arch',
     Callback = function()
         local args = {
-            [1] = "Teleport",
-            [2] = "Arch"
-        }  
-        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
+            [1] = 'Teleport',
+            [2] = 'Arch'
+        }
+        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
     end
- })
+})
 tab.credits:AddLabel('GUI & Scripts Made By:')
-tab.credits:AddLabel('SippingSizzurp and Poke01 and Piuro ')
-tab.credits:AddLabel('Aswell as creds to jameson for telling me to make this:')
+tab.credits:AddLabel('SippingSizzurp and Poke01')
+
+function comma_value(amount)
+    local formatted = tostring(amount)
+    while true do
+        formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
+        if (k == 0) then
+            break
+        end
+    end
+    return formatted
+end
+
+local connections = getconnections or get_signal_cons
+if connections then
+    for i, v in pairs(connections(game:GetService("Players").ShaneFarmer95.Pets.ChildAdded)) do
+        if i > 1 then
+            if v["Disable"] then
+                v["Disable"](v)
+            elseif v["Disconnect"] then
+                v["Disconnect"](v)
+            end
+        end
+    end
+end
+
+
+game:GetService("Players").LocalPlayer.Pets.ChildAdded:Connect(function(Child)
+    Child:WaitForChild('Type')
+    if getgenv().webhookSend == true and string.find(Child.Name, 'Huge') or string.find(Child.Name, 'Giant') or game:GetService("ReplicatedStorage").Pets.Models[Child.Name].Main.BillboardGui.Rarity.Text == 'Legendary' or game:GetService("ReplicatedStorage").Pets.Models[Child.Name].Main.BillboardGui.Rarity.Text == 'Rare' or game:GetService("ReplicatedStorage").Pets.Models[Child.Name].Main.BillboardGui.Rarity.Text == 'Epic' then
+        local WebhookData = game:GetService('HttpService'):JSONEncode({
+            content = nil,
+            embeds = {
+                {
+                    title = "**Hatch Alert**!",
+                    description = string.format("You found a %s %s",
+                        game:GetService("ReplicatedStorage").Pets.Models[Child.Name].Main.BillboardGui.Rarity.Text,
+                        Child.Name),
+                    color = 5814783
+                }
+            },
+            username = "Pet Rift Eggs",
+            avatar_url =
+            "https://media.discordapp.net/attachments/1085466107101593630/1099673776762925159/Site-logo.png?width=473&height=473",
+        })
+
+
+        syn.request({
+            Url = getgenv().webhookUrl,
+            Method = 'POST',
+            Headers = { ['Content-Type'] = 'application/json', },
+            Body = WebhookData
+        })
+    end
+end)
+
+spawn(function()
+    while true do
+        if getgenv().Loop_AutoFarm == true and getgenv().webhookSend == true then
+            local WebhookData = game:GetService('HttpService'):JSONEncode({
+                content = nil,
+                embeds = {
+                    {
+                        title = "<a:CH_MoneyFlying:715585160497856533> **Auto Farm Stats**!",
+                        description = string.format(
+                            "_ _ 
+<:Coin:861703914743398451> **COINS**  = %s
+
+<a:gem:915447775313928232> **GEMS**  = %s
+
+<a:diamond:911384383473217596> **DIAMONDS**  = %s",
+                            comma_value(math.floor(game:GetService("Players").LocalPlayer.Leaderstats.Gold.Value)),
+                            comma_value(math.floor(game:GetService("Players").LocalPlayer.OtherData.Emerald.Value)),
+                            comma_value(math.floor(game:GetService("Players").LocalPlayer.Leaderstats.Diamond
+                                .Value))),
+                        color = 5814783
+                    }
+                },
+                username = "Pet Rift Stats",
+                avatar_url =
+                "https://media.discordapp.net/attachments/1085466107101593630/1099673776762925159/Site-logo.png?width=473&height=473",
+            })
+
+
+            syn.request({
+                Url = getgenv().webhookUrl,
+                Method = 'POST',
+                Headers = { ['Content-Type'] = 'application/json', },
+                Body = WebhookData
+            })
+            wait(870)
+        end
+        wait(30)
+    end
+end)
+
 
 OrionLib:Init()
