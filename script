@@ -1,416 +1,569 @@
-
 --AUTO BUY STUFF
 _G.autoGold = false      --change to true for buying GoldPotion
 _G.autoLuck = false      --change to true for buying luckPotion
 _G.autoDama = false      --change to true for buying damage potion
 _G.autoXppo = false      --change to true for buying xp potions
-
 --autodrink stuff
 _G.autodrinkluck = false --change to true for it to auto autodrink luck
 _G.autodrinkgold = false --change to true to auto drink gold potion
 _G.autodrinkdama = false --change to true to autodrink dama potions
 _G.autodrinkxppo = false --change to truwe to autodrink xp potion
-
 --trade spam
 _G.autotrade = false     --change to true to spam
-
 --tp stuff
-
 _G.tp = false            --change to true to tp
 _G.heven = false         --change to true to tp
-
 --annoying shit
 _G.annoy = false         --change to true to annoy jameson
-
-
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+getgenv().Loop_AutoFarm = false
+local OrionLib = loadstring(game:HttpGet(("https://raw.githubusercontent.com/shlexware/Orion/main/source")))()
 local Window = OrionLib:MakeWindow({
-    Name = '🐕 Pet Rift GUI v12.0 (Potion UI Overhaul)',
+    Name = "🐕 Pet Rift GUI v13.1",
     HidePremium = true,
-    IntroText = 'Pet Rift GUI',
-    IntroIcon = 'rbxassetid://10414911576'
+    IntroText = "Pet Rift GUI",
+    IntroIcon = "rbxassetid://10414911576"
 })
 local tab = {}
 tab.potions = Window:MakeTab({
-    Name = 'Potions',
-    Icon = 'rbxassetid://6493470706',
+    Name = "Potions",
+    Icon = "rbxassetid://6493470706",
     PremiumOnly = false
 })
 tab.AutoFarm = Window:MakeTab({
-    Name = 'Autofarm',
-    Icon = 'rbxassetid://7939405279',
+    Name = "Autofarm",
+    Icon = "rbxassetid://7939405279",
     PremiumOnly = false
 })
 tab.Teloport = Window:MakeTab({
-    Name = 'Teleport',
-    Icon = 'rbxassetid://7734052925',
+    Name = "Teleport",
+    Icon = "rbxassetid://7734052925",
     PremiumOnly = false
 })
 tab.annoy = Window:MakeTab({
-    Name = 'Annoy Friends',
-    Icon = 'rbxassetid://7743871002',
+    Name = "Annoy Friends",
+    Icon = "rbxassetid://7743871002",
     PremiumOnly = false
 })
 tab.misc = Window:MakeTab({
-    Name = 'Misc',
-    Icon = 'rbxassetid://7059346373',
+    Name = "Misc",
+    Icon = "rbxassetid://7059346373",
     PremiumOnly = false
 })
 tab.credits = Window:MakeTab({
-    Name = 'Credits',
-    Icon = 'rbxassetid://8733216068',
+    Name = "Credits",
+    Icon = "rbxassetid://8733216068",
     PremiumOnly = false
 })
 tab.misc:AddSection({
-    Name = 'GUI'
+    Name = "GUI"
 })
 tab.misc:AddButton({
-    Name = 'Destroy GUI 💀',
+    Name = "Destroy GUI 💀",
     Callback = function()
         OrionLib:Destroy()
     end
 })
 tab.potions:AddSection({
-    Name = 'Auto-Buy 🤑'
+    Name = "Auto-Buy 🤑"
 })
 tab.potions:AddToggle({
-    Name = 'Auto Gold',
+    Name = "Auto Gold",
     Default = false,
     Callback = function(Value)
         _G.autoGold = Value
         while _G.autoGold and wait() do
             local args = {
-                [1] = 'MerchantBuy',
-                [2] = 'GoldPotion'
+                [1] = "MerchantBuy",
+                [2] = "GoldPotion"
             }
-            game:GetService('ReplicatedStorage'):WaitForChild('Remotes'):WaitForChild('Client'):FireServer(unpack(args))
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Client"):FireServer(unpack(args))
         end
     end
 })
 tab.potions:AddToggle({
-    Name = 'Auto Luck',
+    Name = "Auto Luck",
     Default = false,
     Callback = function(Value)
         _G.autoLuck = Value
         while _G.autoLuck and wait() do
             local args = {
-                [1] = 'MerchantBuy',
-                [2] = 'LuckPotion'
+                [1] = "MerchantBuy",
+                [2] = "LuckPotion"
             }
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
         end
     end
 })
 tab.potions:AddToggle({
-    Name = 'Auto XP',
+    Name = "Auto XP",
     Default = false,
     Callback = function(Value)
         _G.autoXppo = Value
         while _G.autoXppo and wait() do
             local args = {
-                [1] = 'MerchantBuy',
-                [2] = 'XPPotion'
+                [1] = "MerchantBuy",
+                [2] = "XPPotion"
             }
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
         end
     end
 })
 tab.potions:AddToggle({
-    Name = 'Auto Damage',
+    Name = "Auto Damage",
     Default = false,
     Callback = function(Value)
         _G.autoDama = Value
         while _G.autoDama and wait() do
             local args = {
-                [1] = 'MerchantBuy',
-                [2] = 'DamagePotion'
+                [1] = "MerchantBuy",
+                [2] = "DamagePotion"
             }
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
         end
     end
 })
 tab.potions:AddSection({
-    Name = 'Auto-Drink 🥶'
+    Name = "Auto-Drink 🥶"
 })
 tab.potions:AddToggle({
-    Name = 'Auto Gold',
+    Name = "Auto Gold",
     Default = false,
     Callback = function(Value)
         _G.autodrinkgold = Value
         while _G.autodrinkgold and wait() do
             local args = {
-                [1] = 'Potion',
-                [2] = 'GOLD'
+                [1] = "Potion",
+                [2] = "GOLD"
             }
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
         end
     end
 })
 tab.potions:AddToggle({
-    Name = 'Auto Luck',
+    Name = "Auto Luck",
     Default = false,
     Callback = function(Value)
         _G.autodrinkluck = Value
         while _G.autodrinkluck and wait() do
             local args = {
-                [1] = 'Potion',
-                [2] = 'LUCK'
+                [1] = "Potion",
+                [2] = "LUCK"
             }
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
         end
     end
 })
 tab.potions:AddToggle({
-    Name = 'Auto XP',
+    Name = "Auto XP",
     Default = false,
     Callback = function(Value)
         _G.autodrinkxppo = Value
         while _G.autodrinkxppo and wait() do
             local args = {
-                [1] = 'Potion',
-                [2] = 'XP'
+                [1] = "Potion",
+                [2] = "XP"
             }
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
         end
     end
 })
 tab.potions:AddToggle({
-    Name = 'Auto Damage',
+    Name = "Auto Damage",
     Default = false,
     Callback = function(Value)
         _G.autodrinkdama = Value
         while _G.autodrinkdama and wait() do
             local args = {
-                [1] = 'Potion',
-                [2] = 'DAMAGE'
+                [1] = "Potion",
+                [2] = "DAMAGE"
             }
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
         end
     end
 })
 tab.misc:AddSection({
-    Name = 'Pets 🙊'
+    Name = "Pets 🙊"
 })
 tab.misc:AddButton({
-    Name = 'Equip Best Pets',
+    Name = "Equip Best Pets",
     Callback = function()
         local args = {
-            [1] = 'Equip Best'
+            [1] = "Equip Best"
         }
-        game:GetService('ReplicatedStorage').Remotes.PetActionRequest:InvokeServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.PetActionRequest:InvokeServer(unpack(args))
     end
 })
 tab.misc:AddSection({
-    Name = 'Player 🤓'
+    Name = "Player 🤓"
 })
-game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = 100
-local VirtualUser = game:GetService('VirtualUser')
-game:GetService('Players').LocalPlayer.Idled:connect(function()
+game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = 100
+local VirtualUser = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
     VirtualUser:CaptureController()
     VirtualUser:ClickButton2(Vector2.new())
 end)
 tab.misc:AddSlider({
-    Name = 'Walk Speed',
+    Name = "Walk Speed",
     Min = 9,
     Max = 500,
-    Default = game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed,
+    Default = game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed,
     Color = Color3.fromRGB(255, 255, 255),
     Increment = 1,
-    ValueName = '',
-    Flag = 'WalkSpeedSlider',
+    ValueName = "",
+    Flag = "WalkSpeedSlider",
     Callback = function(Value)
-        game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Value
     end
 })
-local ws_co = coroutine.create(function()
-    while (true) do
-        game:GetService('Players').LocalPlayer.Character.Humanoid.WalkSpeed = OrionLib.Flags['WalkSpeedSlider'].Value
+tab.misc:AddSection({
+    Name = "Secrets"
+})
+tab.misc:AddButton({
+    Name = "Grab All Hidden Fairies",
+    Callback = function()
+        local savedPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+        for i, v in pairs(game:GetService("Workspace").Fairy:GetChildren()) do
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Main.CFrame
+            wait(0.5)
+        end
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = savedPos
     end
-end)
+})
 tab.annoy:AddToggle({
-    Name = 'Auto Spam Trade (Specific User)',
+    Name = "Auto Spam Trade (Specific User)",
     Default = false,
     Callback = function(Value)
         _G.autotrade = Value
         while _G.autotrade and wait() do
             local args = {
-                [1] = 'SentTrade',
-                [2] = 'CleanDoesRoblox'
+                [1] = "SentTrade",
+                [2] = "CleanDoesRoblox"
             }
-            game:GetService('ReplicatedStorage'):WaitForChild('Remotes'):WaitForChild('Trade'):FireServer(unpack(args))
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Trade"):FireServer(unpack(args))
         end
     end
 })
 tab.annoy:AddToggle({
-    Name = 'Spam Msgs',
+    Name = "Spam Msgs",
     Default = false,
     Callback = function(Value)
         _G.annoy = Value
         while _G.annoy and wait() do
             local args = {
-                [1] = 'jameson is annoying',
-                [2] = 'All'
+                [1] = "jameson is annoying",
+                [2] = "All"
             }
-            game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(unpack(args))
         end
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Heaven',
+    Name = "Heaven",
     Callback = function()
         local args = {
-            [1] = 'Teleport',
-            [2] = 'Heaven'
+            [1] = "Teleport",
+            [2] = "Heaven"
         }
-        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Spawn',
+    Name = "Spawn",
     Callback = function()
         local args = {
-            [1] = 'Teleport',
-            [2] = 'Spawn'
+            [1] = "Teleport",
+            [2] = "Spawn"
         }
-        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
 })
 tab.AutoFarm:AddSection({
-    Name = 'Auto Attack Piles'
+    Name = "Auto Attack Piles"
 })
-local Loop_AutoFarm = false
 local function GetPlayerWorlds()
-    local arr = { 'Spawn' }
-    for i, v in pairs(game:GetService('Players').LocalPlayer.World:GetChildren()) do
+    local arr = { "Spawn" }
+    for i, v in pairs(game:GetService("Players").LocalPlayer.World:GetChildren()) do
+        if table.find(arr, v.Name) then
+            continue
+        end
         table.insert(arr, v.Name)
     end
     return arr
 end
-local function AutoFarmStart()
-    if Loop_AutoFarm == true then
-        local zone = OrionLib.Flags['AutoFarm_AreaDD'].Value
-        zone = string.gsub(string.gsub(string.gsub(string.upper(zone), ' ', '_'), 'ARCH', 'ARCH_ZONE_1'), 'HEAVEN',
-            'HEAVEN1')
-        local newPos = CFrame.new(game:GetService('Workspace').ObjectsFolder[zone].CFrame.x,
-            game:GetService('Workspace').ObjectsFolder[zone].CFrame.y + 3,
-            game:GetService('Workspace').ObjectsFolder[zone].CFrame.z)
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = newPos
-        for i, v in pairs(game:GetService('Workspace').PlayerPets:FindFirstChild(game:GetService('Players').LocalPlayer.Name):GetChildren()) do
+local function TpPlayerToZone()
+    if not game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(getgenv().zone) then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(
+            game:GetService("Workspace").ObjectsFolder[getgenv().zone].CFrame.x,
+            game:GetService("Workspace").ObjectsFolder[getgenv().zone].CFrame.y + 3,
+            game:GetService("Workspace").ObjectsFolder[getgenv().zone].CFrame.z)
+        for i, v in pairs(game:GetService("Workspace").PlayerPets:FindFirstChild(game:GetService("Players").LocalPlayer.Name):GetChildren()) do
             for _, c in pairs(v:GetChildren()) do
                 if pcall(function() local check = c.CFrame end) then
                     c.CFrame = game.Players.LocalPlayer.Character.Head.CFrame
                 end
             end
         end
-        wait(0.5)
-        while (Loop_AutoFarm == true) do
-            local pile = workspace.ObjectsFolder[zone]:GetChildren()[1]
-            game:GetService('ReplicatedStorage').Remotes.Client:FireServer('AllPetsAttack', pile)
-            repeat wait(.001) until workspace.ObjectsFolder[zone]:GetChildren()[1] ~= pile
-        end
+    elseif game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(getgenv().zone) then
+        firetouchinterest(game.Players.LocalPlayer.Character.Head,
+            game:GetService("Workspace").MAP.Teleporter["FORCE_TP"][getgenv().zone], 0)
+        wait(0.1)
+        firetouchinterest(game.Players.LocalPlayer.Character.Head,
+            game:GetService("Workspace").MAP.Teleporter["FORCE_TP"][getgenv().zone], 1)
+        wait(2)
     end
 end
+local function AutoFarmStart()
+    wait(0.15)
+    if game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(getgenv().zone) then
+        local tps = {}
+        tps["Spawn"] = "SPAWN"
+        tps["Rift 2"] = "VOLCANO"
+        tps["Rift 3"] = "HELL"
+        tps["Rift 4"] = "OCEAN"
+        tps["Rift 5"] = "GOBLIN"
+        tps["Azard City"] = "CYBER"
+        tps["Arch"] = "ARCH_ZONE_3"
+        tps["Vampire Castle"] = "VAMPIRE"
+        tps["Heaven"] = "HEAVEN1"
+        getgenv().zone = tps[getgenv().zone]
+        TpPlayerToZone()
+        wait(0.2)
+    end
+    spawn(function()
+        while (getgenv().Loop_AutoFarm == true) do
+            local pile = workspace.ObjectsFolder[getgenv().zone]:GetChildren()[1]
+            game:GetService("ReplicatedStorage").Remotes.Client:FireServer("AllPetsAttack", pile)
+            local stopLoop = false
+            pile.Destroying:connect(function()
+                stopLoop = true
+            end)
+            repeat wait() until stopLoop or getgenv().Loop_AutoFarm ~= true
+        end
+    end)
+end
 tab.AutoFarm:AddDropdown({
-    Name = 'Area',
-    Default = 'Spawn',
+    Name = "Area",
+    Default = "Spawn",
     Options = GetPlayerWorlds(),
-    Flag = 'AutoFarm_AreaDD',
-    Callback = function()
-        AutoFarmStart()
-    end
-})
-tab.AutoFarm:AddToggle({
-    Name = 'Farm Piles',
-    Default = false,
-    Flag = 'AutoFarm_AreaTGL',
+    Flag = "AutoFarm_AreaDD",
     Callback = function(Value)
-        Loop_AutoFarm = Value
-        OrionLib.Flags['AutoFarm_AreaDD']:Refresh(GetPlayerWorlds(), true)
-        AutoFarmStart()
+        if not game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(Value) then
+            getgenv().zone = string.gsub(string.upper(Value), " ", "_")
+        elseif game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(Value) then
+            getgenv().zone = Value
+        end
+        if getgenv().Loop_AutoFarm == true then
+            TpPlayerToZone()
+            getgenv().Loop_AutoFarm = false
+            wait(0.15)
+            getgenv().Loop_AutoFarm = true
+            AutoFarmStart()
+        end
+    end
+})
+getgenv().zone = OrionLib.Flags["AutoFarm_AreaDD"].Value
+tab.AutoFarm:AddToggle({
+    Name = "Farm Piles",
+    Default = false,
+    Flag = "AutoFarm_AreaTGL",
+    Callback = function(Value)
+        getgenv().Loop_AutoFarm = Value
+        OrionLib.Flags["AutoFarm_AreaDD"]:Refresh(GetPlayerWorlds(), true)
+        if not game:GetService("Workspace").MAP.Teleporter["FORCE_TP"]:FindFirstChild(getgenv().zone) then
+            getgenv().zone = string.gsub(string.upper(getgenv().zone), " ", "_")
+        end
+        if getgenv().Loop_AutoFarm == true then
+            TpPlayerToZone()
+            AutoFarmStart()
+        end
+    end
+})
+tab.AutoFarm:AddSection({
+    Name = "Webhook"
+})
+getgenv().webhookUrl = "URL"
+tab.AutoFarm:AddTextbox({
+    Name = "Webhook URL",
+    Default = getgenv().webhookUrl,
+    TextDisappear = true,
+    Flag = "WebHook_INPUT",
+    Callback = function(Value)
+        getgenv().webhookUrl = Value
+    end
+})
+getgenv().webhookSend = false
+tab.AutoFarm:AddToggle({
+    Name = "Use Webhook",
+    Default = false,
+    Callback = function(Value)
+        getgenv().webhookSend = Value
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Spring',
+    Name = "Spring",
     Callback = function()
         local args = {
-            [1] = 'Teleport',
-            [2] = 'Spring'
+            [1] = "Teleport",
+            [2] = "Spring"
         }
-        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Fantasy',
+    Name = "fantasy",
     Callback = function()
         local args = {
-            [1] = 'Teleport',
-            [2] = 'Fantasy Nature'
+            [1] = "Teleport",
+            [2] = "Fantasy Nature"
         }
-        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Troll',
+    Name = "troll",
     Callback = function()
         local args = {
-            [1] = 'Teleport',
-            [2] = 'Troll'
+            [1] = "Teleport",
+            [2] = "Troll"
         }
-        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Skeletons',
+    Name = "Skeletons",
     Callback = function()
         local args = {
-            [1] = 'Teleport',
-            [2] = 'Skeletons'
+            [1] = "Teleport",
+            [2] = "Skeletons"
         }
-        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Deep',
+    Name = "deep",
     Callback = function()
         local args = {
-            [1] = 'Teleport',
-            [2] = 'Deep Ocean'
+            [1] = "Teleport",
+            [2] = "Deep Ocean"
         }
-        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Witch',
+    Name = "witch",
     Callback = function()
         local args = {
-            [1] = 'Teleport',
-            [2] = 'Witch'
+            [1] = "Teleport",
+            [2] = "Witch"
         }
-        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Valcano',
+    Name = "valcano",
     Callback = function()
         local args = {
-            [1] = 'Teleport',
-            [2] = 'Volcano Matter'
+            [1] = "Teleport",
+            [2] = "Volcano Matter"
         }
-        game:GetService('ReplicatedStorage').Remotes.Client:FireServer(unpack(args))
+        game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
 })
 tab.Teloport:AddButton({
-    Name = 'Arch',
+    Name = "Arch",
     Callback = function()
         local args = {
             [1] = "Teleport",
             [2] = "Arch"
-        }  
+        }
         game:GetService("ReplicatedStorage").Remotes.Client:FireServer(unpack(args))
     end
- })
-tab.credits:AddLabel('GUI & Scripts Made By:')
-tab.credits:AddLabel('SippingSizzurp and Poke01 and Piuro ')
-tab.credits:AddLabel('Aswell as creds to jameson for telling me to make this:')
+})
+tab.credits:AddLabel("GUI & Scripts Made By:")
+tab.credits:AddLabel("SippingSizzurp and Poke01")
+function comma_value(amount)
+    local formatted = tostring(amount)
+    while true do
+        formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", "%1,%2")
+        if (k == 0) then
+            break
+        end
+    end
+    return formatted
+end
+local connections = getconnections or get_signal_cons
+if connections then
+    for i, v in pairs(connections(game:GetService("Players").ShaneFarmer95.Pets.ChildAdded)) do
+        if i > 1 then
+            if v["Disable"] then
+                v["Disable"](v)
+            elseif v["Disconnect"] then
+                v["Disconnect"](v)
+            end
+        end
+    end
+end
+game:GetService("Players").LocalPlayer.Pets.ChildAdded:Connect(function(Child)
+    Child:WaitForChild("Type")
+    if getgenv().webhookSend == true and string.find(Child.Name, "Huge") or string.find(Child.Name, "Giant") or game:GetService("ReplicatedStorage").Pets.Models[Child.Name].Main.BillboardGui.Rarity.Text == "Legendary" or game:GetService("ReplicatedStorage").Pets.Models[Child.Name].Main.BillboardGui.Rarity.Text == "Rare" or game:GetService("ReplicatedStorage").Pets.Models[Child.Name].Main.BillboardGui.Rarity.Text == "Epic" then
+        local WebhookData = game:GetService("HttpService"):JSONEncode({
+            content = nil,
+            embeds = {
+                {
+                    title = "**Hatch Alert**!",
+                    description = string.format("You found a %s %s",
+                        game:GetService("ReplicatedStorage").Pets.Models[Child.Name].Main.BillboardGui.Rarity.Text,
+                        Child.Name),
+                    color = 5814783
+                }
+            },
+            username = "Pet Rift Eggs",
+            avatar_url =
+            "https://media.discordapp.net/attachments/1085466107101593630/1099673776762925159/Site-logo.png?width=473&height=473",
+        })
+        syn.request({
+            Url = getgenv().webhookUrl,
+            Method = "POST",
+            Headers = { ["Content-Type"] = "application/json", },
+            Body = WebhookData
+        })
+    end
+end)
+spawn(function()
+    while true do
+        if getgenv().Loop_AutoFarm == true and getgenv().webhookSend == true then
+            local WebhookData = game:GetService("HttpService"):JSONEncode({
+                content = nil,
+                embeds = {
+                    {
+                        title = "<a:CH_MoneyFlying:715585160497856533> **Auto Farm Stats**!",
+                        description = string.format(
+                            "_ _ 
+<:Coin:861703914743398451> **COINS**  = %s
 
+<a:gem:915447775313928232> **GEMS**  = %s
+
+<a:diamond:911384383473217596> **DIAMONDS**  = %s",
+                            comma_value(math.floor(game:GetService("Players").LocalPlayer.Leaderstats.Gold.Value)),
+                            comma_value(math.floor(game:GetService("Players").LocalPlayer.OtherData.Emerald.Value)),
+                            comma_value(math.floor(game:GetService("Players").LocalPlayer.Leaderstats.Diamond
+                                .Value))),
+                        color = 5814783
+                    }
+                },
+                username = "Pet Rift Stats",
+                avatar_url =
+                "https://media.discordapp.net/attachments/1085466107101593630/1099673776762925159/Site-logo.png?width=473&height=473",
+            })
+            syn.request({
+                Url = getgenv().webhookUrl,
+                Method = "POST",
+                Headers = { ["Content-Type"] = "application/json", },
+                Body = WebhookData
+            })
+            wait(870)
+        end
+        wait(30)
+    end
+end)
 OrionLib:Init()
